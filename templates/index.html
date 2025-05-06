@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(90deg, rgb(5, 29, 98), rgb(62, 3, 64));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 4px 4px 6px lightblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h1 class="mt-5 header">Welcome to your Personal Finance Tracker!</h1>
+        <p class="lead">Track your expenses and manage your personal finances effortlessly!</p>
+        <div class="mt-4">
+            <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>

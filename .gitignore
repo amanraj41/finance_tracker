@@ -1,0 +1,14 @@
+# Virtual Environment
+env/
+
+# Database instance
+instance /
+
+# Database schema migrations
+migrations/
+
+# Static files
+static /
+
+# Python Compiled Files
+__pycache__/
