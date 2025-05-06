@@ -2,13 +2,13 @@
 env/
 
 # Database instance
-instance /
+instance/
 
 # Database schema migrations
 migrations/
 
 # Static files
-static /
+static/
 
 # Python Compiled Files
 __pycache__/
