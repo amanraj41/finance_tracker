@@ -1,0 +1,12 @@
+#calendar-widget {
+    text-align: center;
+    margin: 20px 0;
+}
+#calendar-widget h5 {
+    font-weight: normal;
+}
+#calendar-widget .form-control {
+    display: inline-block;
+    width: auto;
+    max-width: 200px;
+}

@@ -1,10 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from datetime import datetime
 
 db = SQLAlchemy()
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     username = db.Column(db.String(20), unique = True, nullable = False)
     email = db.Column(db.String(120), unique = True, nullable = False)
     password = db.Column(db.String(60), nullable = False)
@@ -17,7 +18,7 @@ class User(db.Model):
     
 
 class Income(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     salary = db.Column(db.Float, nullable = False)
     investment = db.Column(db.Float, nullable = True)
     other_sources = db.Column(db.Float, nullable = True)
@@ -30,7 +31,7 @@ class Income(db.Model):
     
 
 class Transaction(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     amount = db.Column(db.Float, nullable = False)
     type = db.Column(db.String(6), nullable = False)
     date = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)

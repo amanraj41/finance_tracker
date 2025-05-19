@@ -7,11 +7,8 @@ instance/
 # Database schema migrations
 migrations/
 
-# Static files
-static/
-
 # Python Compiled Files
 __pycache__/
 
-# For debugging cleanup
-delete_records.py
+# Debugging manoeuvres
+debug/
