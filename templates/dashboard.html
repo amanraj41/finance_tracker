@@ -21,7 +21,7 @@
                 <h3>Your Profile</h3>
                 <p>Username: {{ current_user.username }}</p>
                 <p>Email: {{ current_user.email }}</p>
-                <h4>Income Record</h4>
+                <h4>Income Details</h4>
                 <p>Salary: &#x20B9;{{ current_user.income.salary }}</p>
                 <p>Investments: &#x20B9;{{ current_user.income.investment or 0 }}</p>
                 <p>Other Sources: &#x20B9;{{ current_user.income.other_sources or 0 }}</p>
@@ -39,29 +39,100 @@
                     </div>
                 </div>
 
-                <div class = "mt-4">
+                <div class = "mt-4" style = "display: none;">
                     <canvas id = "incomePieChart"></canvas>
                 </div>
             </div>
 
             <div id = "transaction-journal" class="my-4">
-                <h2>Transactions Journal</h2>
-                <div class = "journal-entries">
+                <div class = "journal-header">
+                    <h2>Transactions Journal</h2>
+                    <div class = "journal-entries" id = "journalEntries">
+                        {% if transactions %}
+                            <div class = "journal-grid">
+                                {% for transaction in transactions %}
+                                    <div class = "journal-entry">
+                                        <div class = "entry-date">{{ transaction.date.strftime('%a %d-%b-%Y') }}</div>
+                                        <div class = "entry-time">{{ transaction.date.strftime('%H:%M') }}</div>
+                                        <div class = "entry-type">{{ transaction.type }}</div>
+                                        <div class = "entry-amount">{{ transaction.amount }}</div>
+                                        <div class = "entry-note">{{ transaction.note }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>No transactions data found for the selected date.</p>
+                        {% endif %}
+                    </div>
 
+                    <div class = "text-center mt-4">
+                        <button id = "add-transaction" class = "btn btn-primary">Add a Transaction</button>
+                    </div>
                 </div>
             </div>
 
             <div id = "calendar-widget" class = "my-4 text-center">
                 <h5 style = "font-family: Arial, sans-serif;">Select Date</h5>
                 <div class = "d-inline-block">
-                    <input type = "date" id = "datePicker" class = "form-control text-center">
+                    <input type = "text" id = "datePicker" class = "form-control text-center" value = "{{ date.strftime('%a %d-%b-%Y') }}">
+                </div>
+            </div>
+        </div>
+
+        <div id = "transactionModal" class = "modal" tabindex = "-1" role = "dialog" data-backdrop = "static" data-keyboard = "false">
+            <div class = "modal-dialog" role = "document">
+                <div class = "modal-content">
+                    <div class = "modal-header">
+                        <h5 class = "modal-title">Add New Transaction</h5>
+                        <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+    
+                    <div class = "modal-body">
+                        <form id = "transactionForm">
+                            <div class = "form-group mb-3">
+                                <label for = "transactionAmount" style = "margin-bottom: 5px; font-weight: 600;">Amount</label>
+                                <input type = "number" step = "0.01" class = "form-control" id = "transactionAmount" min = "0" required>
+                                <small class = "form-text text-danger" id = "amountError" style = "display: none;">Amount must be greater than 0.</small>
+                            </div>
+                            
+                            <div class = "form-group mb-3">
+                                <label for = "transactionType" style = "margin-bottom: 5px; font-weight: 600;">Type</label>
+                                <select class = "form-control" id = "transactionType" required>
+                                    <option value = "">Select Type</option>
+                                    <option value = "debit">Debit</option>
+                                    <option value = "credit">Credit</option>
+                                </select>
+                                <small class = "form-text text-danger" id = "typeError" style = "display: none;">Please choose a valid transaction type.</small>
+                            </div>
+
+                            <div class = "form-group mb-3">
+                                <label for = "transactionNote" style = "margin-bottom: 5px; font-weight: 600;">Note</label>
+                                <textarea class = "form-control" id = "transactionNote" maxlength="255"></textarea>
+                            </div>
+
+                            <div class = "form-group mb-3">
+                                <label for = "transactionTime" style = "margin-right: 15px; font-weight: 600;">Time</label>
+                                <input type = "text" id = "transactionTime" class = "time form-control text-center w-100" required>
+                                <small class = "form-text text-danger" id = "timeError" style = "display: none;">Please select transaction time.</small>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class = "modal-footer">
+                        <button type = "button" class = "btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type = "button" class = "btn btn-primary" onclick = "submitTransaction()">Add</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src = "https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src = "https://cdn.jsdelivr.net/npm/jquery-clock-timepicker@2.0.0/jquery-clock-timepicker.min.js"></script>
         <script src = "{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
     </body>

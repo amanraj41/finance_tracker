@@ -10,3 +10,73 @@
     width: auto;
     max-width: 200px;
 }
+
+.journal-header {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.journal-entries {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.journal-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    background-color: #f9f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.journal-entry {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.journal-entry:hover {
+    background-color: #f0f0f0f0;
+}
+
+.journal-entry .entry-note {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.journal-entry .entry-note.expanded {
+    white-space: normal;
+}
+
+.entry-date, .entry-time, .entry-type, .entry-amount, .entry-note {
+    font-size: 0.9em;
+    color: #333;
+}
+
+#add-transaction {
+    background-color: #007baa;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+}
+#add-transaction:hover {
+    background-color: #0056b3;
+}

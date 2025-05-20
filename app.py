@@ -1,9 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, jsonify, request
 from forms import *
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import *
+from dateutil import parser
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '27F0812:HKR-THN'
@@ -86,10 +87,16 @@ def setup():
     
     return render_template('setup.html', form = form, redirect = False)
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods = ['GET'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user = current_user)
+
+    date_str = request.args.get('date', datetime.today().strftime('%a-%d-%b-%Y'))
+    date = datetime.strptime(date_str, '%a-%d-%b-%Y')
+
+    transactions = Transaction.query.filter(Transaction.date == date, Transaction.user_id == current_user.id).all()
+
+    return render_template('dashboard.html', user = current_user, transactions = transactions, date = date)
 
 @app.route('/logout')
 @login_required
@@ -97,6 +104,22 @@ def logout():
     logout_user()
     flash('You have been successfully logged out. See you soon!', 'info')
     return redirect(url_for('home'))
+
+@app.route('/add-transaction', methods = ['POST'])
+@login_required
+def add_transaction():
+    amount = float(request.form.get('amount'))
+    type = request.form.get('type')
+    note = request.form.get('note')
+    date_iso = request.form.get('date')
+    date = parser.isoparse(date_iso)
+
+    transaction_record = Transaction(amount = amount, type = type, date = date, note = note, user_id = current_user.id)
+
+    db.session.add(transaction_record)
+    db.session.commit()
+
+    return jsonify({'message': 'Transaction added'}), 200
 
 if __name__ == '__main__':
     app.run(debug = True)

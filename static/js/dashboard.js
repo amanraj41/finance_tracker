@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
     flatpickr("#datePicker", {
-        defaultDate: "today",
         dateFormat: "D d-M-Y",
         onChange: function(selectedDates, dateStr, instance) {
             console.log("Selected date is: ", dateStr);
@@ -73,4 +72,95 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true
         }
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const datePicker = document.getElementById('datePicker');
+    datePicker.addEventListener('change', function() {
+
+        const selectedDate = this.value;
+        const formattedDate = new Date(selectedDate).toLocaleDateString('en-IN', {
+            weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
+        });
+        const urlDate = formattedDate.replace(/, /g, '-').replace(/ /g, '-');
+
+        window.location.href = `/dashboard?date=${urlDate}`;
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const addTransactionButton = document.getElementById('add-transaction');
+    const transactionModal = document.getElementById('transactionModal');
+
+    addTransactionButton.addEventListener('click', function() {
+        $(transactionModal).modal('show');
+    });
+
+    $('#transactionTime').clockTimePicker();
+
+    $(transactionModal).on('show.bs.modal', function() {
+        $('#transactionForm')[0].reset();
+        $('#amountError, #typeError, #timeError').hide();
+
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        $('#transactionTime').val(formattedTime);
+    });
+
+    function parseCustomDateFormat(dateStr) {
+        const [dayName, day, monthName, year] = dateStr.split(/[\s-]+/);
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const monthIndex = monthNames.indexOf(monthName);
+        if(monthIndex == -1) { throw new Error('Invalid month name encountered while parsing.'); }
+
+        return `${year}-${(monthIndex + 1).toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+
+    window.submitTransaction = function() {
+        const amount = $('#transactionAmount').val();
+        const type = $('#transactionType').val();
+        const note = $('#transactionNote').val();
+        const time = $('#transactionTime').val();
+
+        let isValid = true;
+
+        if(amount <= 0) {
+            $('#amountError').show();
+            isValid = false;
+        } else {
+            $('#amountError').hide();
+        }
+        if(!type) {
+            $('#typeError').show();
+            isValid = false;
+        } else {
+            $('#typeError').hide();
+        }
+        if(!time) {
+            $('#timeError').show();
+            isValid = false;
+        } else {
+            $('#timeError').hide();
+        }
+
+        if(isValid) {
+            const date = parseCustomDateFormat($('#datePicker').val());
+            const transactionDateTime = new Date(`${date}T${time}:00`);
+
+            $.post('/add-transaction', {
+                amount: amount,
+                type: type,
+                note: note,
+                date: transactionDateTime.toISOString()
+            }).done(function(response) {
+                alert('Transaction added');
+                $('#transactionModal').modal('hide');
+
+            }).fail(function() {
+                alert('ERROR: Failed to add transaction');
+            });
+        }
+    }
 });
