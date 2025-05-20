@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import *
 from dateutil import parser
+from sqlalchemy import extract
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '27F0812:HKR-THN'
@@ -94,7 +95,10 @@ def dashboard():
     date_str = request.args.get('date', datetime.today().strftime('%a-%d-%b-%Y'))
     date = datetime.strptime(date_str, '%a-%d-%b-%Y')
 
-    transactions = Transaction.query.filter(Transaction.date == date, Transaction.user_id == current_user.id).all()
+    transactions = Transaction.query.filter(Transaction.user_id == current_user.id, 
+                                            extract('day', Transaction.date) == date.day,
+                                            extract('month', Transaction.date) == date.month,
+                                            extract('year', Transaction.date) == date.year).all()
 
     return render_template('dashboard.html', user = current_user, transactions = transactions, date = date)
 
