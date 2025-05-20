@@ -10,5 +10,5 @@ migrations/
 # Python Compiled Files
 __pycache__/
 
-# Debugging manoeuvres
+# Debugging and state monitoring
 debug/

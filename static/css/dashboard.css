@@ -12,71 +12,77 @@
 }
 
 .journal-header {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
+    margin: 20px;
+    padding: 15px;
+    background-image: linear-gradient(to right, #1c2290, #306cc1);
+    border-radius: 8px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
 }
 
-.journal-entries {
-    max-height: 300px;
+.journal-header h2 {
+    color: #fff;
+    font-weight: 500;
+    font-size: xx-large;
+    letter-spacing: 2px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.journal-container {
+    max-height: 500px;
     overflow-y: auto;
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.journal-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    background-color: #f9f9f9f9;
-    padding: 10px;
+    padding: 15px;
+    background-color: #f0f2f5;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.journal-entry {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+.journal-table {
+    width: 100%;
+    border-collapse: collapse;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
 }
 
-.journal-entry:hover {
-    background-color: #f0f0f0f0;
+.journal-table th,
+.journal-table td {
+    padding: 12px 15px;
+    text-align: center;
 }
 
-.entry-note {
-    max-width: 200px;
+.journal-table th {
+    background-color: #6c5ce7;
+    color: #fff;
+    font-weight: 600;
+}
+
+.journal-table tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+.journal-table .entry-note {
+    max-width: 250px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.entry-note.expanded {
-    white-space: normal;
-}
-
-.entry-date, .entry-time, .entry-type, .entry-amount, .entry-note {
-    font-size: 0.9em;
-    color: #333;
-}
-
 #add-transaction {
-    background-color: #007baa;
+    background-image: linear-gradient(to right, #530f72, #ba46be);
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     color: #fff;
     cursor: pointer;
     padding: 10px 20px;
-    transition: background-color 0.3s;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
+
 #add-transaction:hover {
-    background-color: #0056b3;
+    background-image: linear-gradient(to right, #ba46be, #530f72);
+    border: 2px solid rgb(97, 5, 97);
+}
+
+#add-transaction:hover {
+    font-size: 1.2em;
 }

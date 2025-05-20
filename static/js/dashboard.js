@@ -86,6 +86,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.location.href = `/dashboard?date=${urlDate}`;
     });
+
+    $('#journalTable').DataTable({
+        responsive: true,
+        pageLength: 5,
+        order: [[1, 'asc']],
+        language: {
+            search: 'Search:',
+            paginate: {
+                previous: '<i class = "fas fa-angle-left"></i>',
+                next: '<i class = "fas fa-angle-right"></i>'
+            }
+        },
+        columnDefs: [
+            {
+                targets: 4,
+                className: 'entry-note'
+            }
+        ]
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {

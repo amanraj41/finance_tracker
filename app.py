@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import *
-from dateutil import parser
+from dateutil import parser, tz
 from sqlalchemy import extract
 
 app = Flask(__name__)
@@ -100,7 +100,7 @@ def dashboard():
                                             extract('month', Transaction.date) == date.month,
                                             extract('year', Transaction.date) == date.year).all()
 
-    return render_template('dashboard.html', user = current_user, transactions = transactions, date = date)
+    return render_template('dashboard.html', user = current_user, transactions = transactions, date = date, tz = tz)
 
 @app.route('/logout')
 @login_required
