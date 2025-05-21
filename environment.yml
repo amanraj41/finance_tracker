@@ -1,4 +1,3 @@
-name: e:\Software Development\Python\finance_tracker\env
 channels:
   - conda-forge
   - defaults
@@ -43,4 +42,3 @@ dependencies:
   - wheel=0.45.1=py39haa95532_0
   - wtforms=2.3.3=pyhd3eb1b0_0
   - zipp=3.21.0=py39haa95532_0
-prefix: e:\Software Development\Python\finance_tracker\env
