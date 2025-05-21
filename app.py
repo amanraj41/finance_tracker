@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from model import *
 from dateutil import parser, tz
 from sqlalchemy import extract
+from aggregator import print_aggregations
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '27F0812:HKR-THN'
@@ -99,6 +100,8 @@ def dashboard():
                                             extract('day', Transaction.date) == date.day,
                                             extract('month', Transaction.date) == date.month,
                                             extract('year', Transaction.date) == date.year).all()
+    
+    # print_aggregations(db, date, current_user.id)
 
     return render_template('dashboard.html', user = current_user, transactions = transactions, date = date, tz = tz)
 
