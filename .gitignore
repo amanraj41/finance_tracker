@@ -12,3 +12,6 @@ __pycache__/
 
 # Debugging and state monitoring
 debug/
+
+# Session signing keys
+signature/

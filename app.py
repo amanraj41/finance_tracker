@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, flash, jsonify, request
+from os import environ
 from forms import *
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -10,7 +11,7 @@ from aggregator import *
 from json import dumps
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '27F0812:HKR-THN'
+app.secret_key = environ.get('FLASK_SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 db.init_app(app)
