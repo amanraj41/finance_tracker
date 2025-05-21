@@ -94,21 +94,83 @@ document.addEventListener("DOMContentLoaded", function() {
     const weeklyChart = new Chart(weeklyCtx, {
         type: 'bar',
         data: {
-            labels: [],
+            labels: visualizationData.weekly.labels,
 
             datasets: [{
-                label: 'Weekly Expenditure Tracker',
-                data: [],
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                fill: true
+                label: "Day's expense",
+                data: visualizationData.weekly.values,
+                borderColor: 'rgba(128, 0, 128, 1)',
+                backgroundColor: [
+                    'rgba(147, 112, 219, 0.8)',
+                    'rgba(186, 85, 211, 0.8)',
+                    'rgba(218, 112, 214, 0.8)',
+                    'rgba(221, 160, 221, 0.8)',
+                    'rgba(238, 130, 238, 0.8)',
+                    'rgba(153, 50, 204, 0.8)',
+                    'rgba(148, 0, 211, 0.8)'
+                ],
+                borderWidth: 1
             }]
         },
         options: {
             responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Weekly Expenditure Tracker',
+                    color: '#4B0082',
+                    font: {
+                        size: 24,
+                        family: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(75, 0, 130, 0.8)',
+                    titleFont: {
+                        size: 16,
+                        family: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 14
+                    }
+                }
+            },
             scales: {
                 x: {
-                    beginAtZero: true
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        color: '#8A2BE2',
+                        font: {
+                            size: 16,
+                            family: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(75, 0, 130, 0.2)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Expense',
+                        color: '#8A2BE2',
+                        font: {
+                            size: 16,
+                            family: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(75, 0, 130, 0.2)'
+                    }
+                }
+            },
+            elements: {
+                bar: {
+                    borderRadius: 5,
+                    hoverBackgroundColor: 'rgba(128, 0, 128, 0.9)',
+                    hoverBorderColor: 'rgba(75, 0, 130, 1)'
                 }
             }
         }

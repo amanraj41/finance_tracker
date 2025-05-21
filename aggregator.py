@@ -92,6 +92,16 @@ def monthly_plot(monthly_data, month, year):
     
     return [date.strftime('%d-%m-%Y') for date in daily_expenses.keys()], [expense for expense in daily_expenses.values()]
 
+def weekly_plot(weekly_data, iso_year, iso_week):
+    week_first_day = datetime.fromisocalendar(iso_year, iso_week, 1).date()
+
+    daily_expenses = {(week_first_day + timedelta(days = i)): 0 for i in range(7)}
+
+    for available_data in weekly_data:
+        daily_expenses[available_data.date.date()] = available_data.total
+
+    return [date.strftime('%d-%m-%Y') for date in daily_expenses.keys()], [expense for expense in daily_expenses.values()]
+
 def print_aggregations(db: SQLAlchemy, date: datetime, user_id):
 
     monthly_data, weekly_data, weekly_expenditure, month_total_expense, monthly_income, monthly_balance = get_visualization_data(db, date, user_id)

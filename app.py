@@ -113,6 +113,7 @@ def dashboard():
         weekwise_grouped_expense.append((weekly_ranges[week][0], weekly_ranges[week][1], weekly_expenditure[week]))
 
     monthly_labels, monthly_values = monthly_plot(monthly_data, date.month, date.year)
+    weekly_labels, weekly_values = weekly_plot(weekly_data, date.isocalendar()[0], date.isocalendar()[1])
 
     visualization_data = {
         'monthly': {
@@ -120,8 +121,8 @@ def dashboard():
             'values': monthly_values, #[day.total for day in monthly_data]
         },
         'weekly': {
-            'labels': [day.date.strftime('%d-%m-%Y') for day in weekly_data],
-            'values': [day.total for day in weekly_data]
+            'labels': weekly_labels, #[day.date.strftime('%d-%m-%Y') for day in weekly_data],
+            'values': weekly_values #[day.total for day in weekly_data]
         },
         'pie': {
             'labels': [f"{week[0].strftime('%d-%m-%Y')} — {week[1].strftime('%d-%m-%Y')}" for week in weekwise_grouped_expense],
