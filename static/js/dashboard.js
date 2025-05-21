@@ -10,21 +10,81 @@ document.addEventListener("DOMContentLoaded", function() {
     const monthlyChart = new Chart(monthlyCtx, {
         type: 'line',
         data: {
-            labels: [],
+            labels: visualizationData.monthly.labels,
 
             datasets: [{
-                label: 'Monthly Expenditure Tracker',
-                data: [],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true
+                label: 'Day expense',
+                data: visualizationData.monthly.values,
+                borderColor: 'rgba(58, 123, 213, 1)',
+                backgroundColor: 'rgba(58, 123, 213, 0.2)',
+                fill: true,
+                tension: 0.4
             }]
         },
         options: {
             responsive: true,
+            plugins: {
+                filter: {
+                    propagate: false
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: 'rgba(44, 44, 84, 0.8)'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "Monthly Expenditure Tracker",
+                    color: 'rgba(21, 8, 95, 0.87)',
+                    font: {
+                        size: 25,
+                        family: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+                    }
+                },
+                tooltip: {
+                    enabled: true
+                }
+            },
             scales: {
                 x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        color: 'rgba(44, 44, 84, 0.8)',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    ticks: {
+                        minRotation: 30,
+                        maxRotation: 30
+                    },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.3)'
+                    },
                     beginAtZero: true
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Expense',
+                        color: 'rgba(44, 44, 84, 0.8)',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    ticks: { color: 'rgb(13, 13, 58)' },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.3)'
+                    }
+                }
+            },
+            elements: {
+                point: {
+                    radius: 5,
+                    hoverRadius: 7,
+                    hitRadius:10
                 }
             }
         }

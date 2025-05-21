@@ -76,13 +76,11 @@
     padding: 10px 20px;
     margin-top: 30px;
     margin-bottom: 20px;
+    transition: font-size 0.3s;
 }
 
 #add-transaction:hover {
     background-image: linear-gradient(to right, #ba46be, #530f72);
     border: 1px solid rgb(97, 5, 97);
-}
-
-#add-transaction:hover {
     font-size: 1.2em;
 }

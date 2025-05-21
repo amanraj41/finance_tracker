@@ -6,7 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from model import *
 from dateutil import parser, tz
 from sqlalchemy import extract
-from aggregator import print_aggregations
+from aggregator import *
+from json import dumps
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '27F0812:HKR-THN'
@@ -89,6 +90,7 @@ def setup():
     
     return render_template('setup.html', form = form, redirect = False)
 
+
 @app.route('/dashboard', methods = ['GET'])
 @login_required
 def dashboard():
@@ -101,9 +103,41 @@ def dashboard():
                                             extract('month', Transaction.date) == date.month,
                                             extract('year', Transaction.date) == date.year).all()
     
-    # print_aggregations(db, date, current_user.id)
+    print_aggregations(db, date, current_user.id)
 
-    return render_template('dashboard.html', user = current_user, transactions = transactions, date = date, tz = tz)
+    monthly_data, weekly_data, weekly_expenditure, month_total_expense, monthly_income, monthly_balance = get_visualization_data(db, date, current_user.id)
+    weekly_ranges = partition_month(date.year, date.month)
+
+    weekwise_grouped_expense = []
+    for week in weekly_expenditure:
+        weekwise_grouped_expense.append((weekly_ranges[week][0], weekly_ranges[week][1], weekly_expenditure[week]))
+
+    monthly_labels, monthly_values = monthly_plot(monthly_data, date.month, date.year)
+
+    visualization_data = {
+        'monthly': {
+            'labels': monthly_labels, #[day.date.strftime('%d-%m-%Y') for day in monthly_data],
+            'values': monthly_values, #[day.total for day in monthly_data]
+        },
+        'weekly': {
+            'labels': [day.date.strftime('%d-%m-%Y') for day in weekly_data],
+            'values': [day.total for day in weekly_data]
+        },
+        'pie': {
+            'labels': [f"{week[0].strftime('%d-%m-%Y')} — {week[1].strftime('%d-%m-%Y')}" for week in weekwise_grouped_expense],
+            'values': [week[2] for week in weekwise_grouped_expense],
+            'income': monthly_income
+        },
+        'other': {
+            'month_total_expense': month_total_expense,
+            'monthly_balance': monthly_balance
+        }
+    }
+
+    print("\n\n" + dumps(visualization_data) + "\n\n")
+
+    return render_template('dashboard.html', user = current_user, transactions = transactions, date = date, tz = tz, visualization_data = dumps(visualization_data))
+
 
 @app.route('/logout')
 @login_required
