@@ -43,7 +43,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 },
                 tooltip: {
-                    enabled: true
+                    enabled: true,
+                    backgroundColor: 'rgba(3, 44, 103, 0.8)',
+                    titleFont: {
+                        size: 16,
+                        family: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 14
+                    }
                 }
             },
             scales: {
