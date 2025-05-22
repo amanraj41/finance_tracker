@@ -18,11 +18,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 borderColor: 'rgba(58, 123, 213, 1)',
                 backgroundColor: 'rgba(58, 123, 213, 0.2)',
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointHoverBackgroundColor: 'rgba(21, 97, 204, 0.5)'
             }]
         },
         options: {
             responsive: true,
+            devicePixelRatio: 4,
             plugins: {
                 filter: {
                     propagate: false
@@ -44,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 tooltip: {
                     enabled: true,
+                    padding: 10,
                     backgroundColor: 'rgba(3, 44, 103, 0.8)',
                     titleFont: {
                         size: 16,
@@ -59,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     title: {
                         display: true,
                         text: 'Date',
-                        color: 'rgba(44, 44, 84, 0.8)',
+                        color: 'rgba(20, 20, 116, 0.8)',
                         font: {
                             size: 16
                         }
@@ -77,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     title: {
                         display: true,
                         text: 'Expense',
-                        color: 'rgba(44, 44, 84, 0.8)',
+                        color: 'rgba(21, 21, 127, 0.8)',
                         font: {
                             size: 16
                         }
@@ -91,8 +94,8 @@ document.addEventListener("DOMContentLoaded", function() {
             elements: {
                 point: {
                     radius: 5,
-                    hoverRadius: 7,
-                    hitRadius:10
+                    hoverRadius: 8,
+                    hitRadius: 10
                 }
             }
         }
@@ -122,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         options: {
             responsive: true,
+            devicePixelRatio: 4,
             plugins: {
                 title: {
                     display: true,
@@ -134,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 tooltip: {
                     enabled: true,
+                    padding: 10,
                     backgroundColor: 'rgba(75, 0, 130, 0.8)',
                     titleFont: {
                         size: 16,
@@ -185,12 +190,12 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     const pieCtx = document.getElementById('pieChart').getContext('2d');
-    const incomePieChart = new Chart(pieCtx, {
+    const pieChart = new Chart(pieCtx, {
         type: 'pie',
         data: {
-            labels: visualizationData.pie.labels,
+            labels: visualizationData.categorical.labels,
             datasets: [{
-                data: visualizationData.pie.values,
+                data: visualizationData.categorical.values,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.6)',
                     'rgba(54, 162, 235, 0.6)',
@@ -215,15 +220,18 @@ document.addEventListener("DOMContentLoaded", function() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            devicePixelRatio: 4,
             layout: {
                 padding: {
                     top: 20,
-                    bottom: 30
+                    bottom: 30,
+                    right: 30
                 }
             },
             plugins: {
                 tooltip: {
                     enabled: true,
+                    padding: 10,
                     backgroundColor: 'rgba(139, 0, 0, 0.8)',
                     titleFont: {
                         size: 16,
@@ -234,10 +242,94 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 },
                 legend: {
-                    position: 'right',
+                    position: 'left',
                     labels: {
                         boxWidth: 12,
-                        padding: 20
+                        padding: 10
+                    }
+                }
+            }
+        }
+    });
+
+    const categoricalBarCtx = document.getElementById('categoricalBar').getContext('2d');
+    const categoricalBarChart = new Chart(categoricalBarCtx, {
+        type: 'bar',
+        data: {
+            labels: visualizationData.categorical.labels.slice(0, -1),
+            datasets: [{
+                label: 'Total expense',
+                data: visualizationData.categorical.values.slice(0, -1),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                    'rgba(255, 159, 64, 0.7)',
+                    'rgba(201, 203, 207, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(53, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(201, 203, 207, 1)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            devicePixelRatio: 4,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    padding: 10,
+                    backgroundColor: 'rgba(4, 83, 15, 0.8)',
+                    titleFont: {
+                        size: 16,
+                        family: "'Roboto', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 14
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Total expense',
+                        color: 'rgba(3, 84, 19, 0.8)',
+                        font: {
+                            size: 16,
+                            family: "'Roboto', sans-serif"
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(75, 0, 130, 0.2)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        color: 'rgba(3, 84, 19, 0.8)',
+                        font: {
+                            size: 20,
+                            family: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 130, 35, 0.2)'
                     }
                 }
             }

@@ -125,7 +125,7 @@ def dashboard():
             'labels': weekly_labels, #[day.date.strftime('%d-%m-%Y') for day in weekly_data],
             'values': weekly_values #[day.total for day in weekly_data]
         },
-        'pie': {
+        'categorical': {
             'labels': [f"{week[0].strftime('%d-%m-%Y')} — {week[1].strftime('%d-%m-%Y')}" for week in weekwise_grouped_expense] + ['Remaining Balance'],
             'values': [week[2] for week in weekwise_grouped_expense] + [monthly_balance],
             'income': monthly_income
