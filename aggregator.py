@@ -80,7 +80,7 @@ def partition_month(year, month):
         
         partition[month_start.isocalendar()[1]] = (month_start, (partition[next(iter(partition))][0] - timedelta(days = 1)))
 
-    return partition
+    return dict(sorted(partition.items(), key = lambda x: x[0]))
 
 def monthly_plot(monthly_data, month, year):
     _, num_days = monthrange(year, month)

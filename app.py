@@ -109,12 +109,12 @@ def dashboard():
     monthly_data, weekly_data, weekly_expenditure, month_total_expense, monthly_income, monthly_balance = get_visualization_data(db, date, current_user.id)
     weekly_ranges = partition_month(date.year, date.month)
 
-    weekwise_grouped_expense = []
-    for week in weekly_expenditure:
-        weekwise_grouped_expense.append((weekly_ranges[week][0], weekly_ranges[week][1], weekly_expenditure[week]))
-
     monthly_labels, monthly_values = monthly_plot(monthly_data, date.month, date.year)
     weekly_labels, weekly_values = weekly_plot(weekly_data, date.isocalendar()[0], date.isocalendar()[1])
+
+    weekwise_grouped_expense = []
+    for week in weekly_ranges:
+        weekwise_grouped_expense.append((weekly_ranges[week][0], weekly_ranges[week][1], weekly_expenditure[week] if week in weekly_expenditure else 0))
 
     visualization_data = {
         'monthly': {
@@ -126,8 +126,8 @@ def dashboard():
             'values': weekly_values #[day.total for day in weekly_data]
         },
         'pie': {
-            'labels': [f"{week[0].strftime('%d-%m-%Y')} — {week[1].strftime('%d-%m-%Y')}" for week in weekwise_grouped_expense],
-            'values': [week[2] for week in weekwise_grouped_expense],
+            'labels': [f"{week[0].strftime('%d-%m-%Y')} — {week[1].strftime('%d-%m-%Y')}" for week in weekwise_grouped_expense] + ['Remaining Balance'],
+            'values': [week[2] for week in weekwise_grouped_expense] + [monthly_balance],
             'income': monthly_income
         },
         'other': {

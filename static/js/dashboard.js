@@ -184,22 +184,63 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    const pieCtx = document.getElementById('incomePieChart').getContext('2d');
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
     const incomePieChart = new Chart(pieCtx, {
         type: 'pie',
         data: {
-            labels: ['Income', 'Spent', 'Remaining'],
+            labels: visualizationData.pie.labels,
             datasets: [{
-                data: [],
+                data: visualizationData.pie.values,
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.6)',
                     'rgba(255, 99, 132, 0.6)',
-                    'rgba(255, 206, 86, 0.6)'
-                ]
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 159, 64, 0.6)',
+                    'rgba(201, 203, 207, 0.6)'
+                ],
+                hoverBackgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)',
+                    'rgba(201, 203, 207, 0.8)'
+                ],
+                hoverOffset: 30
             }]
         },
         options: {
-            responsive: true
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 30
+                }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(139, 0, 0, 0.8)',
+                    titleFont: {
+                        size: 16,
+                        family: "'Arial', Calibri, 'Trebuchet MS', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 14
+                    }
+                },
+                legend: {
+                    position: 'right',
+                    labels: {
+                        boxWidth: 12,
+                        padding: 20
+                    }
+                }
+            }
         }
     });
 });

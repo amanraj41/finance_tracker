@@ -11,6 +11,51 @@
     max-width: 200px;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&idisplay=swap');
+
+.analytics-container {
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+    perspective: 1000px;
+}
+
+.analytics {
+    font-family: 'Oswald', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: transparent;
+    display: inline-block;
+    background: linear-gradient(90deg,rgba(31, 3, 69, 1) 0%, rgba(11, 36, 120, 1) 32%, rgba(14, 201, 183, 1) 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -moz-background-clip: text;
+    text-shadow: 2px 2px 64px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: gradientMove 3s linear infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 200% 50%; }
+    100% { background-position: -100% 50%; }
+}
+.analytics::after {
+    content: 'Analytics';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.7rem;
+    color: transparent;
+    background: linear-gradient(90deg, #00264d, #005580, #007aaa, #005580, #00264d);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    -moz-background-clip: text;
+    opacity: 0.3;
+    transform: scaleY(-0.6) translateY(-70px);
+}
+
 .journal-header {
     margin: 20px;
     padding: 15px;
